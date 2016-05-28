@@ -8,11 +8,31 @@
 <script type="text/javascript" src="../vendor/mstratman-jQuery-Smart-Wizard-a975a34/js/jquery-2.0.0.min.js"></script>
 <script type="text/javascript" src="../vendor/mstratman-jQuery-Smart-Wizard-a975a34/js/jquery.smartWizard.js"></script>
 
+<link href="../include/munger.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="../include/res-smartWizard.js"></script>
 <script type="text/javascript">
     window.mungeStage = 2;
     window.munge = function (source) {
-        return 'hoopla! ' + source;
+        var filteRedditOptions = JSON.parse(source);
+        var subreddits = filteRedditOptions.allowNSFW.value
+            .map(function(row) {
+                return row[0].split(',');
+            })
+            .filter(function(value) {
+                return !!value;
+            })
+            .reduce(function(a, b) {
+                return a.concat(b);
+            }, []);
+        if (!subreddits.length) {
+            throw 'No subreddits listed in allowNSFW. You can\'t use this tool for these settings.';
+        }
+        var snippet = subreddits
+            .map(function(subreddit) {
+                return '.res body:not(.allowOver18) .thing.over18[data-subreddit="' + subreddit.toLowerCase() + '"]'
+            }).join(', \n')
+            + ' {\n\tdisplay: block !important; }';
+        return snippet;
     };
 </script>
 
@@ -43,28 +63,51 @@
 
             <p><a href="https://www.reddit.com/#!settings/filteReddit/allowNSFW">filteReddit allowNSFW</a> allows you to still see NSFW posts from certain subreddits when RES's NSFW filter is turned on. This is useful for subreddits that use the NSFW flag for spoilers, solved, or jokes.</p>
 
-            <p>RES v4.6.0 and v4.6.1 broke allowNSFW. Sorry, folks! This workaround takes your list of subreddits for allowing NSFW posts and converts them into a CSS snippet which overrides the nsfw filter.</p>
+            <p>RES v4.6.0 and v4.6.1 broke allowNSFW. Sorry, folks! This workaround takes your list of subreddits for allowing NSFW posts and converts them into a CSS snippet which overrides the nsfw filter. <small>Caveat: this wizard does not support "when browsing subreddit/multi-subreddit".</small></p>
 
-            <p>TODO: back your settings up</p>
+            <p>Before you start: <strong><A href="http://www.reddit.com/r/Enhancement/wiki/backing_up_res_settings" target="_blank">Back up your settings!</a></strong></p>
+            <p><label><input type="checkbox" id="backup"> Settings are backed up</label></p>
             </p>
         </div>
 		<div>
             <h2 class="StepTitle">Get settings</h2>
-            <p>TODO: get <code>filteReddit.allowNSFW.options.value</code> and copy it into a textarea</p>
-            <p><textarea id="source" placeholder="allowNSFW settings"></textarea></p>
-            </p>
+
+            <p>Get your filteReddit
+
+            <ol>
+              <li>Copy this text: <input type="text" value="RESStorage get RESoptions.filteReddit" data-select-all></li>
+              <li>Go to <a href="https://www.reddit.com/" target="_blank">reddit.com</a>.</li>
+              <li>Launch the RES command line: press period or
+            <a href="https://www.reddit.com/#!settings/commandLine/launch" target="_blank">open the RES settings for Command Line</a> and press the <span class="btn">Launch</span> button.
+              </li>
+              <li>Paste in the <code>RESStorage...</code> from above and press enter. A pop-up will appear.</li>
+              <li>Copy all the text from that pop-up.</li>
+              <li>Close the pop-up.</li>
+              <li><textarea id="source" placeholder="Paste the {...} blob here."></textarea></li>
+            </ol>
         </div>
 		<div>
             <h2 class="StepTitle">Save updates</h2>
-            <p>TODO: create a new row in <code>stylesheets.snippets</code> and copy vvv in</p>
-            </p>
-            <p><textarea id="result" placeholder="Stylesheet Loader - CSS snippet"></textarea></p>
-
-            <p>Save your settings and you're good to go</p>
+            <ol>
+                <li>Copy this:<br>
+                    <textarea id="result" placeholder="Stylesheet Loader - CSS snippet" data-select-all></textarea>
+                </li>
+                <li><a href="https://www.reddit.com/#!settings/stylesheet/snippets" target="_blank">Open the RES settings for Stylesheet Loader - Snippets</a>.</li>
+                <li>Add a new row (click the <span class="btn">Add Row</span> button).  <small>If you've done this already, edit the snippet you created before.</small></li>
+                <li>Paste in the snippet from above.</li>
+                <li>Save settings.</li>
+            </ol>
         </div>
 		<div>
             <h2 class="StepTitle">Summary</h2>
-            <p>All done. After upgrading to RES v4.7, you can delete the CSS snippet and only add subreddits to allowNSFW again. If you manually update the CSS snippet, you should also edit allowNSFW.
+            <p>All done. After upgrading to RES v4.7, you can delete the CSS snippet.</p>
+
+            <p>If you want to add more subreddits:
+                <ol>
+                    <li>Add subreddits to filteReddit allowNSFW</li>
+                    <li>Save your settings</li>
+                    <li>Use this wizard again, but update the existing snippet instead of adding a new snippet.</li>
+                </ol>
             </p>
         </div>
   		</div>
