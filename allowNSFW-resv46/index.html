@@ -16,7 +16,7 @@
         var filteRedditOptions = JSON.parse(source);
         var subreddits = filteRedditOptions.allowNSFW.value
             .map(function(row) {
-                return row[0].split(',');
+                return row[0][0] === '/' ? row[0][0] : row[0].split(',');
             })
             .filter(function(value) {
                 return !!value;
