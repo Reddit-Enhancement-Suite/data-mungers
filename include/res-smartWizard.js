@@ -10,16 +10,27 @@ $(document).ready(function(){
         var handler = leaveStepHandlers[stage];
         var result = true;
         if (handler) {
-            result = handler();
+            try {
+                result = handler();
+            } catch (e) {
+                result = 'There was a problem: ' + e.toString();
+            }
         }
         if (result !== true) {
             alert(result || 'You\'re not done with this step yet.');
             return false;
         }
-        return result;
+        return true;
     }
 
     var leaveStepHandlers = {};
+    leaveStepHandlers[window.backupStage || 1] = function() {
+        if (!$('#backup').prop('checked')) {
+            return 'After you back up your settings, tick the checkbox indicating settings are backed up.';
+        }
+        return true;
+    };
+
     leaveStepHandlers[window.mungeStage || 2] = function() {
         var source = document.querySelector('#source').value;
         if (!source) {
@@ -29,4 +40,9 @@ $(document).ready(function(){
         document.querySelector('#result').value = result;
         return true;
     }
+
+    $('#wizard').on('focus', '[data-select-all]', function(e) {
+        var text = e.target;
+        text.setSelectionRange(0, text.value.length);
+    });
 });

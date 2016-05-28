@@ -1,0 +1,13 @@
+.stepContainer .content li + li {
+	margin-top: 0.5em;
+}
+
+
+.stepContainer .content input[type="text"] {
+	width: 50em;
+}
+
+.stepContainer .content textarea {
+	width: 70em;
+	height: 5em;
+}
