@@ -1,0 +1,77 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>allowNSFW workaround for RES v4.6 - Reddit Enhancement Suite</title>
+<link href="../vendor/mstratman-jQuery-Smart-Wizard-a975a34/styles/demo_style.css" rel="stylesheet" type="text/css">
+
+<link href="../vendor/mstratman-jQuery-Smart-Wizard-a975a34/styles/smart_wizard.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="../vendor/mstratman-jQuery-Smart-Wizard-a975a34/js/jquery-2.0.0.min.js"></script>
+<script type="text/javascript" src="../vendor/mstratman-jQuery-Smart-Wizard-a975a34/js/jquery.smartWizard.js"></script>
+
+<script type="text/javascript" src="../include/res-smartWizard.js"></script>
+<script type="text/javascript">
+    window.mungeStage = 2;
+    window.munge = function (source) {
+        return 'hoopla! ' + source;
+    };
+</script>
+
+</head><body>
+
+<div class="demoHead">
+  <div>
+    <div style="float:left;">
+      <h1>allowNSFW workaround for RES v4.6</h1>
+      <h2>Generate CSS snippet from filteReddit allowNSFW option</h2>
+    </div>
+    <div style="float:right;" class="demoNavLinks">
+      <a href="../index.html" class="btn">More workarounds</a>
+      <a href="https://github.com/Reddit-Enhancement-Suite/datamungers" class="btn">GitHub</a>
+    </div>
+    <div style="clear:both;"></div>
+  </div>
+</div>
+
+<table align="center" border="0" cellpadding="0" cellspacing="0">
+<tr><td>
+<!-- Smart Wizard -->
+        <h2>allowNSFW workaround</h2>
+  		<div id="wizard" class="swMain">
+
+  			<div>
+            <h2 class="StepTitle">Readme</h2>
+
+            <p><a href="https://www.reddit.com/#!settings/filteReddit/allowNSFW">filteReddit allowNSFW</a> allows you to still see NSFW posts from certain subreddits when RES's NSFW filter is turned on. This is useful for subreddits that use the NSFW flag for spoilers, solved, or jokes.</p>
+
+            <p>RES v4.6.0 and v4.6.1 broke allowNSFW. Sorry, folks! This workaround takes your list of subreddits for allowing NSFW posts and converts them into a CSS snippet which overrides the nsfw filter.</p>
+
+            <p>TODO: back your settings up</p>
+            </p>
+        </div>
+		<div>
+            <h2 class="StepTitle">Get settings</h2>
+            <p>TODO: get <code>filteReddit.allowNSFW.options.value</code> and copy it into a textarea</p>
+            <p><textarea id="source" placeholder="allowNSFW settings"></textarea></p>
+            </p>
+        </div>
+		<div>
+            <h2 class="StepTitle">Save updates</h2>
+            <p>TODO: create a new row in <code>stylesheets.snippets</code> and copy vvv in</p>
+            </p>
+            <p><textarea id="result" placeholder="Stylesheet Loader - CSS snippet"></textarea></p>
+
+            <p>Save your settings and you're good to go</p>
+        </div>
+		<div>
+            <h2 class="StepTitle">Summary</h2>
+            <p>All done. After upgrading to RES v4.7, you can delete the CSS snippet and only add subreddits to allowNSFW again. If you manually update the CSS snippet, you should also edit allowNSFW.
+            </p>
+        </div>
+  		</div>
+<!-- End SmartWizard Content -->
+
+</td></tr>
+</table>
+
+</body>
+</html>
